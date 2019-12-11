@@ -7,6 +7,8 @@ import store from '../store';
 import HomePage from './HomePage';
 import LoginPage from './LoginPage';
 import CreateAdminPage from './CreateAdminPage';
+import UserListPage from './UserListPage';
+import TagListPage from './TagListPage';
 
 const Root = () => (
   <Provider store={store}>
@@ -15,6 +17,8 @@ const Root = () => (
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/create-admin" component={CreateAdminPage} />
+        <Route exact path="/user-list" component={UserListPage} />
+        <Route exact path="/tag-list" component={TagListPage} />
       </Switch>
     </BrowserRouter>
   </Provider>

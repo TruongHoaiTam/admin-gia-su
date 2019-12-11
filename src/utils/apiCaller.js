@@ -1,8 +1,10 @@
 import axios from 'axios';
 
-const api_url = 'https://api-admin-gia-su.herokuapp.com';
+// const api_url = 'https://api-admin-gia-su.herokuapp.com';
+const api_url = 'http://localhost:3000'
 
 export function callApiLogin(body) {
+    console.log(body)
     return axios({
         method: 'POST',
         url: `${api_url}/admin/login`,
@@ -14,7 +16,6 @@ export function callApiLogin(body) {
 }
 
 export function callApiCreateAdmin(body) {
-    console.log(body)
     return axios({
         method: 'POST',
         url: `${api_url}/admin/create-admin`,
@@ -25,4 +26,24 @@ export function callApiCreateAdmin(body) {
             avatar: body.avatar,
         }
     });
+}
+
+export function callApiAddTag(tag) {
+    return axios({
+        method: 'POST',
+        url: `${api_url}/tag`,
+        data: {
+            tag
+        }
+    })
+}
+
+export function callApiDeleteTag(tag) {
+    return axios({
+        method: 'DELETE',
+        url: `${api_url}/tag`,
+        data: {
+            tag
+        }
+    })
 }

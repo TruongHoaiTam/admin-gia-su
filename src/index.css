@@ -97,3 +97,20 @@
   background: #db3236;
   opacity: 0.6;
 }
+
+.demo-loadmore-list {
+  max-width: 1000px;
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.tag-search {
+  max-width: 300px;
+  margin-left: 40%;
+  margin-right: 40%;
+}
+
+.add {
+  float: right;
+  margin-right: 30%;
+}

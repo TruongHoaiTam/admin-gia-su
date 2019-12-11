@@ -1,14 +1,18 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import RegisterForm from '../components/RegisterForm';
+import TagList from '../components/TagList';
+import '../index.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { actLoginRequest, actGetUser, actLogout } from '../actions/Auth';
+import { Input } from 'antd';
+import ModalAddTag from '../components/ModalAddTag';
+const { Search } = Input;
 
-class CreateAdminPage extends React.Component {
+class TagListPage extends React.Component {
   history = () => {
     const { history } = this.props;
-    history.push('/login');
+    history.push('/tag-list');
   };
   render() {
     const { username, actGetUser } = this.props;
@@ -17,8 +21,16 @@ class CreateAdminPage extends React.Component {
       return (
         <div>
           <Navbar />
-          <p className="title">CREATE ADMIN</p>
-          <RegisterForm history={this.history} />
+          <p className="title">TAG LIST PAGE</p>
+          <ModalAddTag history={this.history} />
+          <Search
+            placeholder="Search"
+            enterButton="Search"
+            size="large"
+            onSearch={value => console.log(value)}
+            className="tag-search"
+          />
+          <TagList history={this.history} />
         </div>
       );
     } else {
@@ -42,4 +54,4 @@ const mapDispatchToProps = dispatch => ({
   actLogout: () => dispatch(actLogout())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateAdminPage);
+export default connect(mapStateToProps, mapDispatchToProps)(TagListPage);

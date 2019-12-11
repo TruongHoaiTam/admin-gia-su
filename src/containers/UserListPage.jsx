@@ -1,15 +1,11 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import RegisterForm from '../components/RegisterForm';
+import UserList from '../components/UserList';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { actLoginRequest, actGetUser, actLogout } from '../actions/Auth';
 
-class CreateAdminPage extends React.Component {
-  history = () => {
-    const { history } = this.props;
-    history.push('/login');
-  };
+class UserListPage extends React.Component {
   render() {
     const { username, actGetUser } = this.props;
     actGetUser();
@@ -17,8 +13,8 @@ class CreateAdminPage extends React.Component {
       return (
         <div>
           <Navbar />
-          <p className="title">CREATE ADMIN</p>
-          <RegisterForm history={this.history} />
+          <p className="title">USER LIST PAGE</p>
+          <UserList />
         </div>
       );
     } else {
@@ -42,4 +38,4 @@ const mapDispatchToProps = dispatch => ({
   actLogout: () => dispatch(actLogout())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateAdminPage);
+export default connect(mapStateToProps, mapDispatchToProps)(UserListPage);

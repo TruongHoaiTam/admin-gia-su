@@ -9,7 +9,7 @@ import { Button } from 'antd';
 class Navbar extends React.Component {
   render() {
     const { username, actLogout } = this.props;
-    let login, logout, create_admin;
+    let login, logout, create_admin, user_list, tag_list;
     if (username && username !== undefined) {
       logout = (
         <Menu.Item key="logout">
@@ -23,6 +23,16 @@ class Navbar extends React.Component {
           </Menu.Item>
         );
       }
+      user_list = (
+        <Menu.Item key="user-list">
+          <Link to="/user-list">User List</Link>
+        </Menu.Item>
+      );
+      tag_list = (
+        <Menu.Item key="tag-list">
+          <Link to="/tag-list">Tag List</Link>
+        </Menu.Item>
+      );
     } else {
       login = (
         <Menu.Item key="login">
@@ -35,6 +45,8 @@ class Navbar extends React.Component {
         <Menu.Item key="home">
           <Link to="/">Home</Link>
         </Menu.Item>
+        {user_list}
+        {tag_list}
         {logout}
         {login}
         {create_admin}
