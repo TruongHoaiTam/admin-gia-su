@@ -1,5 +1,4 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
 import RegisterForm from '../components/RegisterForm';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -16,7 +15,6 @@ class CreateAdminPage extends React.Component {
     if (username && username !== undefined) {
       return (
         <div>
-          <Navbar />
           <p className="title">CREATE ADMIN</p>
           <RegisterForm history={this.history} />
         </div>

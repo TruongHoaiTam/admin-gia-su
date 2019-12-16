@@ -47,3 +47,18 @@ export function callApiDeleteTag(tag) {
         }
     })
 }
+
+export function callApiGetAllTag() {
+    return axios({
+        method: 'GET',
+        url: `${api_url}/tag`
+    })
+}
+
+
+export function callApiGetAllUser() {
+    return axios({
+        method: 'GET',
+        url: `${api_url}/user`
+    })
+}

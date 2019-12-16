@@ -1,0 +1,23 @@
+.navbar {
+  background: transparent;
+  font-family: 'Montserrat', sans-serif;
+}
+.navbar a {
+  color: white !important;
+  font-size: larger;
+}
+.ant-menu-item a {
+  color: lightgray !important;
+}
+.ant-menu-item-selected a {
+  color: white !important;
+}
+.ant-menu-item-selected {
+  border-bottom: 2px solid rgba(88, 236, 226, 0.897) !important;
+}
+.ant-menu-item:hover {
+  border-bottom: none;
+}
+.ant-menu {
+  border-bottom: 0 !important;
+}

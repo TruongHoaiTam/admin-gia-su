@@ -1,6 +1,5 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import UserList from '../components/UserList';
+import UserTableList from '../components/UserTableList';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { actLoginRequest, actGetUser, actLogout } from '../actions/Auth';
@@ -12,9 +11,8 @@ class UserListPage extends React.Component {
     if (username && username !== undefined) {
       return (
         <div>
-          <Navbar />
           <p className="title">USER LIST PAGE</p>
-          <UserList />
+          <UserTableList />
         </div>
       );
     } else {

@@ -3,8 +3,9 @@ import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import { actLoginRequest, actGetUser, actLogout } from '../actions/Auth';
+import { actLoginRequest, actGetUser, actLogout } from '../../actions/Auth';
 import { Button } from 'antd';
+import './index.css';
 
 class Navbar extends React.Component {
   render() {
@@ -24,13 +25,13 @@ class Navbar extends React.Component {
         );
       }
       user_list = (
-        <Menu.Item key="user-list">
-          <Link to="/user-list">User List</Link>
+        <Menu.Item key="user">
+          <Link to="/user">User List</Link>
         </Menu.Item>
       );
       tag_list = (
-        <Menu.Item key="tag-list">
-          <Link to="/tag-list">Tag List</Link>
+        <Menu.Item key="tag">
+          <Link to="/tag">Tag List</Link>
         </Menu.Item>
       );
     } else {
@@ -41,7 +42,7 @@ class Navbar extends React.Component {
       );
     }
     return (
-      <Menu mode="horizontal" theme="dark">
+      <Menu mode="horizontal" className="navbar">
         <Menu.Item key="home">
           <Link to="/">Home</Link>
         </Menu.Item>

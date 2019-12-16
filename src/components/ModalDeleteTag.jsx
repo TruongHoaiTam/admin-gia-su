@@ -2,9 +2,9 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import '../index.css';
 import { Form, Input, Button, Modal } from 'antd';
-import { callApiAddTag } from '../utils/apiCaller';
+import { callApiDeleteTag } from '../utils/apiCaller';
 
-class AddTag extends React.Component {
+class DeleteTag extends React.Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
@@ -30,7 +30,7 @@ class AddTag extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        return callApiAddTag(values.tag)
+        return callApiDeleteTag(values.tag)
           .then(() => {
             const { history } = this.props;
             history();
@@ -39,7 +39,7 @@ class AddTag extends React.Component {
             const { info } = Modal;
             info({
               title: 'Thông báo',
-              content: `Thêm mới thất bại`
+              content: `Xóa thất bại`
             });
           });
       }
@@ -51,23 +51,23 @@ class AddTag extends React.Component {
 
     return (
       <div>
-        <Button type="primary" className="add" onClick={this.showModal}>
-          Add
+        <Button type="danger" className="delete" onClick={this.showModal}>
+          Delete
         </Button>
         <Modal
-          title="Add Tag"
+          title="Delete Tag"
           visible={this.state.visible}
           onCancel={this.handleCancel}
           okButtonProps={{ style: { display: 'none' } }}
         >
           <Form onSubmit={this.handleSubmit}>
-            <Form.Item label={<span>Nhập tag mới</span>}>
+            <Form.Item label={<span>Nhập tag muốn xóa</span>}>
               {getFieldDecorator('tag', {})(<Input />)}
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Thêm Tag
+              <Button type="danger" htmlType="submit">
+                Xóa Tag
               </Button>
             </Form.Item>
           </Form>
@@ -77,6 +77,6 @@ class AddTag extends React.Component {
   }
 }
 
-const ModalAddTag = Form.create({ name: 'add_tag' })(AddTag);
+const ModalDeleteTag = Form.create({ name: 'delete_tag' })(DeleteTag);
 
-export default ModalAddTag;
+export default ModalDeleteTag;
