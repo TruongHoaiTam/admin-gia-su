@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 // const api_url = 'https://api-admin-gia-su.herokuapp.com';
-const api_url = 'http://localhost:3000'
+const api_admin_url = 'http://localhost:3002';
+const api_user_url = 'http://localhost:3000'
 
 export function callApiLogin(body) {
-    console.log(body)
     return axios({
         method: 'POST',
-        url: `${api_url}/admin/login`,
+        url: `${api_admin_url}/admin/login`,
         data: {
             username: body.username,
             password: body.password
@@ -18,7 +18,7 @@ export function callApiLogin(body) {
 export function callApiCreateAdmin(body) {
     return axios({
         method: 'POST',
-        url: `${api_url}/admin/create-admin`,
+        url: `${api_admin_url}/admin/create-admin`,
         data: {
             username: body.username,
             password: body.password,
@@ -31,7 +31,7 @@ export function callApiCreateAdmin(body) {
 export function callApiAddTag(tag) {
     return axios({
         method: 'POST',
-        url: `${api_url}/tag`,
+        url: `${api_admin_url}/tag`,
         data: {
             tag
         }
@@ -41,7 +41,7 @@ export function callApiAddTag(tag) {
 export function callApiDeleteTag(tag) {
     return axios({
         method: 'DELETE',
-        url: `${api_url}/tag`,
+        url: `${api_admin_url}/tag`,
         data: {
             tag
         }
@@ -51,7 +51,7 @@ export function callApiDeleteTag(tag) {
 export function callApiGetAllTag() {
     return axios({
         method: 'GET',
-        url: `${api_url}/tag`
+        url: `${api_admin_url}/tag`
     })
 }
 
@@ -59,6 +59,14 @@ export function callApiGetAllTag() {
 export function callApiGetAllUser() {
     return axios({
         method: 'GET',
-        url: `${api_url}/user`
+        url: `${api_user_url}/user`
+    })
+}
+
+export function callApiChangeStatus(item) {
+    return axios({
+        method: 'PUT',
+        url: `${api_user_url}/status`,
+        data: item
     })
 }

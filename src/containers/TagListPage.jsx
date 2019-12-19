@@ -15,9 +15,13 @@ class TagListPage extends React.Component {
     history.push('/tag');
   };
 
-  render() {
-    const { username, actGetUser } = this.props;
+  componentDidUpdate() {
+    const { actGetUser } = this.props;
     actGetUser();
+  }
+
+  render() {
+    const { username } = this.props;
     if (username && username !== undefined) {
       return (
         <div>

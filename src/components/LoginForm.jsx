@@ -20,10 +20,14 @@ class NormalLoginForm extends React.Component {
     });
   };
 
-  render() {
-    const { username, err, actGetUser } = this.props;
-    const { getFieldDecorator } = this.props.form;
+  componentDidUpdate() {
+    const { actGetUser } = this.props;
     actGetUser();
+  }
+
+  render() {
+    const { username, err } = this.props;
+    const { getFieldDecorator } = this.props.form;
 
     if (username && username !== undefined) {
       return <Redirect to="/" />;

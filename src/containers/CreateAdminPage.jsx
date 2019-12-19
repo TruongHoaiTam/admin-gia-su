@@ -9,9 +9,14 @@ class CreateAdminPage extends React.Component {
     const { history } = this.props;
     history.push('/login');
   };
-  render() {
-    const { username, actGetUser } = this.props;
+
+  componentDidUpdate() {
+    const { actGetUser } = this.props;
     actGetUser();
+  }
+
+  render() {
+    const { username } = this.props;
     if (username && username !== undefined) {
       return (
         <div>

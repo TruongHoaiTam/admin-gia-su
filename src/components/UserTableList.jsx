@@ -2,9 +2,10 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
 import { actSaveData } from '../actions/Manage';
+import { actSetCurrentUser, actChangeStatus } from '../actions/Detail';
 import '../index.css';
-import { Table } from 'antd';
-import { callApiGetAllUser } from '../utils/apiCaller';
+import { Table, Button } from 'antd';
+import { callApiGetAllUser, callApiChangeStatus } from '../utils/apiCaller';
 
 class UserTableList extends React.Component {
   state = {
@@ -20,7 +21,21 @@ class UserTableList extends React.Component {
     });
   };
 
-  componentWillMount() {
+  handleDetail = item => {
+    const { actSetCurrentUser } = this.props;
+    actSetCurrentUser(item);
+    const { history } = this.props;
+    history();
+  };
+
+  handleChangeStatus = item => {
+    return callApiChangeStatus(item).then(result => {
+      const { actChangeStatus } = this.props;
+      actChangeStatus(result.data.status);
+    });
+  };
+
+  componentDidUpdate() {
     callApiGetAllUser().then(result => {
       let data = [];
       result.data.forEach(item => {
@@ -29,7 +44,33 @@ class UserTableList extends React.Component {
           username: item.username,
           email: item.email,
           strategy: item.strategy === undefined ? '' : item.strategy,
-          action: 'action'
+          status: item.status,
+          action:
+            item.status === 'active' ? (
+              <div>
+                <Button type="primary" onClick={() => this.handleDetail(item)}>
+                  Xem chi tiết
+                </Button>
+                <Button
+                  type="danger"
+                  onClick={() => this.handleChangeStatus(item)}
+                >
+                  Khóa tài khoản
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <Button type="primary" onClick={() => this.handleDetail(item)}>
+                  Xem chi tiết
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={() => this.handleChangeStatus(item)}
+                >
+                  Mở tài khoản
+                </Button>
+              </div>
+            )
         });
       });
       const { actSaveData } = this.props;
@@ -72,6 +113,18 @@ class UserTableList extends React.Component {
         ellipsis: true
       },
       {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+        filters: [
+          { text: 'active', value: 'active' },
+          { text: 'inactive', value: 'inactive' }
+        ],
+        filteredValue: filteredInfo.status || null,
+        onFilter: (value, record) => record.status.includes(value),
+        ellipsis: true
+      },
+      {
         title: 'Action',
         dataIndex: 'action',
         key: 'action',
@@ -84,6 +137,7 @@ class UserTableList extends React.Component {
           columns={columns}
           dataSource={data}
           onChange={this.handleChange}
+          className="user-table-list"
         />
       </div>
     );
@@ -91,11 +145,14 @@ class UserTableList extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.manage.data
+  data: state.manage.data,
+  current_user: state.detail.current_user
 });
 
 const mapDispatchToProps = dispatch => ({
-  actSaveData: data => dispatch(actSaveData(data))
+  actSaveData: data => dispatch(actSaveData(data)),
+  actSetCurrentUser: current_user => dispatch(actSetCurrentUser(current_user)),
+  actChangeStatus: status => dispatch(actChangeStatus(status))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserTableList);

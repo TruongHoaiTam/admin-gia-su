@@ -1,0 +1,32 @@
+/* Root container */
+.userDetail .short-info p {
+  margin-bottom: 7px;
+  font-size: 21px;
+}
+.userDetail .short-info span {
+  font-size: 13px;
+  font-weight: bolder;
+}
+.highlight {
+  font-size: 17px;
+  font-weight: bold;
+}
+.rating {
+  color: #4ec8c0;
+}
+
+.card-group {
+  margin-top: 24px;
+}
+.card-group .ant-card-head {
+  background: #f9f9f9;
+}
+.card-group .ant-card-head-title {
+  font-size: 21px;
+  color: #595959;
+}
+
+/* System margin */
+.mr-16 {
+  margin-right: 16px;
+}

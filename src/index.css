@@ -141,6 +141,12 @@ body {
   margin-right: 30%;
 }
 
+.user-table-list {
+  max-width: 2400px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 .ant-btn-primary {
   background-color: #50a4a4 !important;
   border-color: #50a4a4 !important;
@@ -158,4 +164,97 @@ body {
 
 .table-operations > button {
   margin-right: 8px;
+}
+
+.center {
+  margin: auto;
+  max-width: 945px;
+}
+
+.usercard {
+  max-width: 945px;
+}
+.info-avatar {
+  display: relative;
+}
+.info-avatar::after {
+  clear: both;
+  content: '';
+  display: table;
+}
+.avatar-container {
+  float: left;
+  width: 150px;
+  height: 90px;
+  text-align: center;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+}
+.short-info {
+  float: left;
+  min-width: 450px;
+  height: 90px;
+  margin-bottom: 14px;
+}
+.short-info p {
+  margin-bottom: 7px;
+}
+.flex {
+  display: flex;
+  width: 100%;
+  margin-top: -6px;
+}
+.flex p {
+  margin-top: 8px;
+  flex: 1;
+}
+.content {
+  margin-left: 150px;
+}
+
+/* Content */
+.tags {
+  margin-bottom: 16px;
+}
+.des {
+  margin-bottom: 16px;
+}
+
+.filter-teacher {
+  background: #fff;
+  display: relative;
+  max-width: 945px;
+}
+.filter {
+  float: left;
+}
+.filter select {
+  margin-left: 16px;
+}
+
+.sort {
+  float: right;
+}
+.ml-16 {
+  margin-left: 16px;
+}
+.mr-16 {
+  margin-right: 16px;
+}
+
+@media only screen and (max-width: 600px) {
+  .filter span {
+    display: block;
+    margin-bottom: 8px;
+  }
+  .sort {
+    margin-top: 8px;
+    float: left;
+  }
+  .content {
+    margin-left: 0px;
+  }
 }

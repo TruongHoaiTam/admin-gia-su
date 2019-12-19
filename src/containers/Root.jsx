@@ -9,6 +9,7 @@ import HomePage from './HomePage';
 import LoginPage from './LoginPage';
 import CreateAdminPage from './CreateAdminPage';
 import UserListPage from './UserListPage';
+import UserDetailPage from './UserDetailPage';
 import TagListPage from './TagListPage';
 
 const Root = () => (
@@ -20,6 +21,7 @@ const Root = () => (
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/create-admin" component={CreateAdminPage} />
         <Route exact path="/user" component={UserListPage} />
+        <Route exact path="/user-detail" component={UserDetailPage} />
         <Route exact path="/tag" component={TagListPage} />
       </Switch>
     </BrowserRouter>

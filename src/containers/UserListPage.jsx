@@ -5,14 +5,23 @@ import { Redirect } from 'react-router-dom';
 import { actLoginRequest, actGetUser, actLogout } from '../actions/Auth';
 
 class UserListPage extends React.Component {
-  render() {
-    const { username, actGetUser } = this.props;
+  componentDidUpdate() {
+    const { actGetUser } = this.props;
     actGetUser();
+  }
+
+  history = () => {
+    const { history } = this.props;
+    history.push('/user-detail');
+  };
+
+  render() {
+    const { username } = this.props;
     if (username && username !== undefined) {
       return (
         <div>
           <p className="title">USER LIST PAGE</p>
-          <UserTableList />
+          <UserTableList history={() => this.history()} />
         </div>
       );
     } else {
