@@ -3,7 +3,7 @@ export const actSetCurrentUser = current_user => ({
     current_user
 });
 
-export const actChangeStatus = status => ({
-    type: 'CHANGE_STATUS',
-    status
+export const actSetCurrentContract = current_contract => ({
+    type: 'SET_CURRENT_CONTRACT',
+    current_contract
 });

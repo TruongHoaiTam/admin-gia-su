@@ -92,7 +92,7 @@ class TagTableList extends React.Component {
     this.setState({ searchText: '' });
   };
 
-  componentWillMount() {
+  componentDidMount() {
     callApiGetAllTag().then(result => {
       let data = [];
       result.data.forEach(item => {

@@ -2,12 +2,16 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
 import { actSaveData } from '../actions/Manage';
-import { actSetCurrentUser } from '../actions/Detail';
+import { actSetCurrentContract } from '../actions/Detail';
 import '../index.css';
 import { Table, Button } from 'antd';
-import { callApiGetAllUser, callApiChangeStatus } from '../utils/apiCaller';
+import {
+  callApiGetAllContract,
+  callApiChangeStatusContractAdmin,
+  callApiChangeStatusContractUser
+} from '../utils/apiCaller';
 
-class UserTableList extends React.Component {
+class ContractTableList extends React.Component {
   state = {
     filteredInfo: null,
     sortedInfo: null
@@ -22,34 +26,36 @@ class UserTableList extends React.Component {
   };
 
   handleDetail = item => {
-    const { actSetCurrentUser } = this.props;
-    actSetCurrentUser(item);
+    const { actSetCurrentContract } = this.props;
+    actSetCurrentContract(item);
     const { history } = this.props;
-    history('/user-detail');
+    history('/contract-detail');
   };
 
   handleChangeStatus = item => {
-    return callApiChangeStatus(item).then(result => {
-      item.status = result.data.status;
-      const { actSetCurrentUser } = this.props;
-      actSetCurrentUser(item);
-      const { history } = this.props;
-      history('/user');
+    return callApiChangeStatusContractAdmin(item).then(result => {
+      item.id = result.data.id;
+      callApiChangeStatusContractUser(item).then(() => {
+        item.status = 'forced terminate';
+        const { actSetCurrentContract } = this.props;
+        actSetCurrentContract(item);
+        const { history } = this.props;
+        history('/contract');
+      });
     });
   };
 
   componentDidMount() {
-    callApiGetAllUser().then(result => {
+    callApiGetAllContract().then(result => {
       let data = [];
       result.data.forEach(item => {
         data.push({
           key: item._id,
-          username: item.username,
-          email: item.email,
-          strategy: item.strategy === undefined ? '' : item.strategy,
+          learner: item.current_learner.fullname,
+          teacher: item.current_teacher.fullname,
           status: item.status,
           action:
-            item.status === 'active' ? (
+            item.status === 'still validate' ? (
               <div>
                 <Button type="primary" onClick={() => this.handleDetail(item)}>
                   Xem chi tiết
@@ -58,19 +64,13 @@ class UserTableList extends React.Component {
                   type="danger"
                   onClick={() => this.handleChangeStatus(item)}
                 >
-                  Khóa tài khoản
+                  Buộc kết thúc hợp đồng
                 </Button>
               </div>
             ) : (
               <div>
                 <Button type="primary" onClick={() => this.handleDetail(item)}>
                   Xem chi tiết
-                </Button>
-                <Button
-                  type="primary"
-                  onClick={() => this.handleChangeStatus(item)}
-                >
-                  Mở tài khoản
                 </Button>
               </div>
             )
@@ -88,31 +88,19 @@ class UserTableList extends React.Component {
     filteredInfo = filteredInfo || {};
     const columns = [
       {
-        title: 'Username',
-        dataIndex: 'username',
-        key: 'username',
-        sorter: (a, b) => a.username.length - b.username.length,
-        sortOrder: sortedInfo.columnKey === 'username' && sortedInfo.order,
+        title: 'Learner',
+        dataIndex: 'learner',
+        key: 'learner',
+        sorter: (a, b) => a.learner.length - b.learner.length,
+        sortOrder: sortedInfo.columnKey === 'learner' && sortedInfo.order,
         ellipsis: true
       },
       {
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
-        sorter: (a, b) => a.email.length - b.email.length,
-        sortOrder: sortedInfo.columnKey === 'email' && sortedInfo.order,
-        ellipsis: true
-      },
-      {
-        title: 'Strategy',
-        dataIndex: 'strategy',
-        key: 'strategy',
-        filters: [
-          { text: 'teacher', value: 'teacher' },
-          { text: 'learner', value: 'learner' }
-        ],
-        filteredValue: filteredInfo.strategy || null,
-        onFilter: (value, record) => record.strategy.includes(value),
+        title: 'Teacher',
+        dataIndex: 'teacher',
+        key: 'teacher',
+        sorter: (a, b) => a.teacher.length - b.teacher.length,
+        sortOrder: sortedInfo.columnKey === 'teacher' && sortedInfo.order,
         ellipsis: true
       },
       {
@@ -120,8 +108,9 @@ class UserTableList extends React.Component {
         dataIndex: 'status',
         key: 'status',
         filters: [
-          { text: 'active', value: 'active' },
-          { text: 'inactive', value: 'inactive' }
+          { text: 'finished', value: 'finished' },
+          { text: 'still validate', value: 'still validate' },
+          { text: 'forced terminate', value: 'forced terminate' }
         ],
         filteredValue: filteredInfo.status || null,
         onFilter: (value, record) => record.status.includes(value),
@@ -140,7 +129,7 @@ class UserTableList extends React.Component {
           columns={columns}
           dataSource={data}
           onChange={this.handleChange}
-          className="user-table-list"
+          className="contract-table-list"
         />
       </div>
     );
@@ -154,7 +143,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actSaveData: data => dispatch(actSaveData(data)),
-  actSetCurrentUser: current_user => dispatch(actSetCurrentUser(current_user))
+  actSetCurrentContract: current_contract =>
+    dispatch(actSetCurrentContract(current_contract))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserTableList);
+export default connect(mapStateToProps, mapDispatchToProps)(ContractTableList);

@@ -147,6 +147,12 @@ body {
   margin-right: 10%;
 }
 
+.contract-table-list {
+  max-width: 2000px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 .ant-btn-primary {
   background-color: #50a4a4 !important;
   border-color: #50a4a4 !important;

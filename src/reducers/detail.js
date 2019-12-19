@@ -1,5 +1,6 @@
 const initState = {
-    current_user: undefined
+    current_user: undefined,
+    current_contract: undefined
 };
 
 export default function detail(state = initState, action) {
@@ -10,13 +11,10 @@ export default function detail(state = initState, action) {
                 current_user: action.current_user
             }
             return state;
-        case 'CHANGE_STATUS':
+        case 'SET_CURRENT_CONTRACT':
             state = {
                 ...state,
-                current_user: {
-                    ...state.current_user,
-                    status: action.status
-                }
+                current_contract: action.current_contract
             }
             return state;
         default:

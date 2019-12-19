@@ -63,6 +63,13 @@ export function callApiGetAllUser() {
     })
 }
 
+export function callApiGetAllContract() {
+    return axios({
+        method: 'GET',
+        url: `${api_admin_url}/contract`
+    })
+}
+
 export function callApiChangeStatus(item) {
     return axios({
         method: 'PUT',
@@ -70,3 +77,20 @@ export function callApiChangeStatus(item) {
         data: item
     })
 }
+
+export function callApiChangeStatusContractAdmin(item) {
+    return axios({
+        method: 'PUT',
+        url: `${api_admin_url}/contract/status`,
+        data: item
+    })
+}
+
+export function callApiChangeStatusContractUser(item) {
+    return axios({
+        method: 'PUT',
+        url: `${api_user_url}/contract/status`,
+        data: item
+    })
+}
+

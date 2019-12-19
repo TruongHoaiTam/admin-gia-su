@@ -5,12 +5,12 @@ import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import { actLoginRequest, actGetUser, actLogout } from '../../actions/Auth';
 import { Button } from 'antd';
-import './index.css';
+import './style.css';
 
 class Navbar extends React.Component {
   render() {
     const { username, actLogout } = this.props;
-    let login, logout, create_admin, user_list, tag_list;
+    let login, logout, create_admin, user_list, tag_list, contract_list;
     if (username && username !== undefined) {
       logout = (
         <Menu.Item key="logout">
@@ -34,6 +34,11 @@ class Navbar extends React.Component {
           <Link to="/tag">Tag List</Link>
         </Menu.Item>
       );
+      contract_list = (
+        <Menu.Item key="contract">
+          <Link to="/contract">Contract List</Link>
+        </Menu.Item>
+      );
     } else {
       login = (
         <Menu.Item key="login">
@@ -48,6 +53,7 @@ class Navbar extends React.Component {
         </Menu.Item>
         {user_list}
         {tag_list}
+        {contract_list}
         {logout}
         {login}
         {create_admin}

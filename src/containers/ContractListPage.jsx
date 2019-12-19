@@ -1,10 +1,10 @@
 import React from 'react';
-import UserTableList from '../components/UserTableList';
+import ContractTableList from '../components/ContractTableList';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { actLoginRequest, actGetUser, actLogout } from '../actions/Auth';
 
-class UserListPage extends React.Component {
+class ContractListPage extends React.Component {
   componentDidUpdate() {
     const { actGetUser } = this.props;
     actGetUser();
@@ -12,11 +12,11 @@ class UserListPage extends React.Component {
 
   history = type => {
     const { history } = this.props;
-    if (type === '/user-detail') {
-      history.push('/user-detail');
+    if (type === '/contract-detail') {
+      history.push('/contract-detail');
     } else {
-      history.push('/user-detail');
-      history.push('/user');
+      history.push('/contract-detail');
+      history.push('/contract');
     }
   };
 
@@ -25,8 +25,8 @@ class UserListPage extends React.Component {
     if (username && username !== undefined) {
       return (
         <div>
-          <p className="title">USER LIST PAGE</p>
-          <UserTableList history={type => this.history(type)} />
+          <p className="title">CONTRACT LIST PAGE</p>
+          <ContractTableList history={type => this.history(type)} />
         </div>
       );
     } else {
@@ -50,4 +50,4 @@ const mapDispatchToProps = dispatch => ({
   actLogout: () => dispatch(actLogout())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserListPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ContractListPage);

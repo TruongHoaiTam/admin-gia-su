@@ -11,6 +11,8 @@ import CreateAdminPage from './CreateAdminPage';
 import UserListPage from './UserListPage';
 import UserDetailPage from './UserDetailPage';
 import TagListPage from './TagListPage';
+import ContractListPage from './ContractListPage';
+import ContractDetailPage from './ContractDetailPage';
 
 const Root = () => (
   <Provider store={store}>
@@ -23,6 +25,8 @@ const Root = () => (
         <Route exact path="/user" component={UserListPage} />
         <Route exact path="/user-detail" component={UserDetailPage} />
         <Route exact path="/tag" component={TagListPage} />
+        <Route exact path="/contract" component={ContractListPage} />
+        <Route exact path="/contract-detail" component={ContractDetailPage} />
       </Switch>
     </BrowserRouter>
   </Provider>
