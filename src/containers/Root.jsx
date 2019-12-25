@@ -13,6 +13,7 @@ import UserDetailPage from './UserDetailPage';
 import TagListPage from './TagListPage';
 import ContractListPage from './ContractListPage';
 import ContractDetailPage from './ContractDetailPage';
+import RevenuePage from './RevenuePage';
 
 const Root = () => (
   <Provider store={store}>
@@ -27,6 +28,7 @@ const Root = () => (
         <Route exact path="/tag" component={TagListPage} />
         <Route exact path="/contract" component={ContractListPage} />
         <Route exact path="/contract-detail" component={ContractDetailPage} />
+        <Route exact path="/revenue" component={RevenuePage} />
       </Switch>
     </BrowserRouter>
   </Provider>

@@ -94,3 +94,10 @@ export function callApiChangeStatusContractUser(item) {
     })
 }
 
+
+export function callApiRevenue() {
+    return axios({
+        method: 'GET',
+        url: `${api_user_url}/revenue/admin`
+    })
+}

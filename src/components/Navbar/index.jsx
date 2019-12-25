@@ -10,7 +10,13 @@ import './style.css';
 class Navbar extends React.Component {
   render() {
     const { username, actLogout } = this.props;
-    let login, logout, create_admin, user_list, tag_list, contract_list;
+    let login,
+      logout,
+      create_admin,
+      user_list,
+      tag_list,
+      contract_list,
+      revenue;
     if (username && username !== undefined) {
       logout = (
         <Menu.Item key="logout">
@@ -39,6 +45,11 @@ class Navbar extends React.Component {
           <Link to="/contract">Contract List</Link>
         </Menu.Item>
       );
+      revenue = (
+        <Menu.Item key="revenue">
+          <Link to="/revenue">Revenue</Link>
+        </Menu.Item>
+      );
     } else {
       login = (
         <Menu.Item key="login">
@@ -54,6 +65,7 @@ class Navbar extends React.Component {
         {user_list}
         {tag_list}
         {contract_list}
+        {revenue}
         {logout}
         {login}
         {create_admin}

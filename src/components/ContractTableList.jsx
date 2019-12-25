@@ -45,6 +45,8 @@ class ContractTableList extends React.Component {
     });
   };
 
+  handleHandleComplaint = item => {};
+
   componentDidMount() {
     callApiGetAllContract().then(result => {
       let data = [];
@@ -67,12 +69,22 @@ class ContractTableList extends React.Component {
                   Buộc kết thúc hợp đồng
                 </Button>
               </div>
-            ) : (
+            ) : item.status === 'pending complaint' ? (
               <div>
                 <Button type="primary" onClick={() => this.handleDetail(item)}>
                   Xem chi tiết
                 </Button>
+                <Button
+                  type="danger"
+                  onClick={() => this.handleHandleComplaint(item)}
+                >
+                  Giải quyết khiếu nại
+                </Button>
               </div>
+            ) : (
+              <Button type="primary" onClick={() => this.handleDetail(item)}>
+                Xem chi tiết
+              </Button>
             )
         });
       });
@@ -110,7 +122,8 @@ class ContractTableList extends React.Component {
         filters: [
           { text: 'finished', value: 'finished' },
           { text: 'still validate', value: 'still validate' },
-          { text: 'forced terminate', value: 'forced terminate' }
+          { text: 'forced terminate', value: 'forced terminate' },
+          { text: 'pending complaint', value: 'pending complaint' }
         ],
         filteredValue: filteredInfo.status || null,
         onFilter: (value, record) => record.status.includes(value),
