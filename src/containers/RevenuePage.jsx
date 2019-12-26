@@ -2,6 +2,8 @@ import React from 'react';
 import { Form, DatePicker, Button } from 'antd';
 import { Chart, Geom, Axis, Tooltip, Coord } from 'bizcharts';
 import DataSet from '@antv/data-set';
+import { connect } from 'react-redux';
+import { actLoginRequest, actGetUser, actLogout } from '../actions/Auth';
 import { callApiRevenue } from '../utils/apiCaller';
 import moment from 'moment';
 
@@ -16,27 +18,10 @@ class RevenueForm extends React.Component {
           ).getTime();
           let end = new Date(moment(values.date_end, 'YYYY-MM-DD')).getTime();
           if (begin <= end) {
-            console.log(values);
             const { history } = this.props;
             history(begin, end);
           }
         }
-        //
-
-        /*values.avatar = localStorage.getItem('imageUrl');
-        values.token = localStorage.getItem('token');
-        return callApiUpdateInfoRegister(values)
-          .then(() => {
-            const { history } = this.props;
-            history();
-          })
-          .catch(err => {
-            const { info } = Modal;
-            info({
-              title: 'Thông báo',
-              content: `Cập nhật thông tin thất bại`
-            });
-          });*/
       }
       return err;
     });
@@ -123,8 +108,6 @@ class RevenuePage extends React.Component {
 
   render() {
     const { data, date_begin, date_end } = this.state;
-    console.log('data', data);
-    console.log('date_begin', date_begin, 'date_end', date_end);
     let _data = [];
     data.forEach(item => {
       if (
@@ -140,7 +123,6 @@ class RevenuePage extends React.Component {
         }
       }
     });
-    console.log('_data', _data);
     const ds1 = new DataSet();
     const dv1 = ds1.createView().source(_data);
     dv1.source(_data).transform({
@@ -211,13 +193,34 @@ class RevenuePage extends React.Component {
         </div>
       );
     }
-    return (
-      <div>
-        <RevenueFilter history={(begin, end) => this.history(begin, end)} />
-        {chart}
-      </div>
-    );
+
+    const { username } = this.props;
+    if (username && username !== undefined) {
+      return (
+        <div>
+          <RevenueFilter history={(begin, end) => this.history(begin, end)} />
+          {chart}
+        </div>
+      );
+    }
   }
 }
 
-export default RevenuePage;
+const mapStateToProps = state => ({
+  username: state.auth.username,
+  email: state.auth.email,
+  avatar: state.auth.avatar,
+
+  token: state.auth.token,
+  err: state.auth.err,
+
+  data: state.manage.data
+});
+
+const mapDispatchToProps = dispatch => ({
+  actLoginRequest: user => dispatch(actLoginRequest(user)),
+  actGetUser: () => dispatch(actGetUser()),
+  actLogout: () => dispatch(actLogout())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RevenuePage);

@@ -4,17 +4,24 @@ import { connect } from 'react-redux';
 import { actSaveData } from '../actions/Manage';
 import { actSetCurrentContract } from '../actions/Detail';
 import '../index.css';
-import { Table, Button } from 'antd';
+import { Table, Button, Modal } from 'antd';
 import {
   callApiGetAllContract,
   callApiChangeStatusContractAdmin,
-  callApiChangeStatusContractUser
+  callApiChangeStatusContractUser,
+  callApiDeleteContractAdmin,
+  callApiDeleteContractUser,
+  callApiChangeStatusComplaintAdmin,
+  callApiChangeStatusComplaintUser
 } from '../utils/apiCaller';
 
 class ContractTableList extends React.Component {
   state = {
     filteredInfo: null,
-    sortedInfo: null
+    sortedInfo: null,
+
+    loading: false,
+    visible: false
   };
 
   handleChange = (pagination, filters, sorter) => {
@@ -45,7 +52,14 @@ class ContractTableList extends React.Component {
     });
   };
 
-  handleHandleComplaint = item => {};
+  showModal = item => {
+    const { actSetCurrentContract } = this.props;
+    actSetCurrentContract(item);
+
+    this.setState({
+      visible: true
+    });
+  };
 
   componentDidMount() {
     callApiGetAllContract().then(result => {
@@ -74,10 +88,7 @@ class ContractTableList extends React.Component {
                 <Button type="primary" onClick={() => this.handleDetail(item)}>
                   Xem chi tiết
                 </Button>
-                <Button
-                  type="danger"
-                  onClick={() => this.handleHandleComplaint(item)}
-                >
+                <Button type="danger" onClick={() => this.showModal(item)}>
                   Giải quyết khiếu nại
                 </Button>
               </div>
@@ -92,6 +103,44 @@ class ContractTableList extends React.Component {
       actSaveData(data);
     });
   }
+
+  handleOk = item => {
+    item.pending_complaint = true;
+    this.handleRefund(item);
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false, visible: false });
+    }, 3000);
+  };
+
+  handleCancel = item => {
+    this.handleFinished(item);
+    this.setState({ visible: false });
+  };
+
+  handleRefund = item => {
+    callApiDeleteContractAdmin(item).then(result => {
+      item.id = result.data.id;
+      callApiDeleteContractUser(item).then(() => {
+        const { history } = this.props;
+        history('/contract');
+      });
+    });
+  };
+
+  handleFinished = item => {
+
+    return callApiChangeStatusComplaintAdmin(item).then(result => {
+      item.id = result.data.id;
+      callApiChangeStatusComplaintUser(item).then(() => {
+        item.status = 'finished';
+        const { actSetCurrentContract } = this.props;
+        actSetCurrentContract(item);
+        const { history } = this.props;
+        history('/contract');
+      });
+    });
+  };
 
   render() {
     const { data } = this.props;
@@ -136,8 +185,36 @@ class ContractTableList extends React.Component {
         ellipsis: true
       }
     ];
+
+    const { visible, loading } = this.state;
+    const { current_contract } = this.props;
+
     return (
       <div>
+        <Modal
+          visible={visible}
+          title="Giải quyết khiếu nại"
+          onOk={() => this.handleOk(current_contract)}
+          onCancel={() => this.handleCancel(current_contract)}
+          footer={[
+            <Button
+              key="back"
+              onClick={() => this.handleCancel(current_contract)}
+            >
+              Kết thúc hợp đồng
+            </Button>,
+            <Button
+              key="submit"
+              type="primary"
+              loading={loading}
+              onClick={() => this.handleOk(current_contract)}
+            >
+              Hoàn tiền
+            </Button>
+          ]}
+        >
+          <p>Chọn cách giải quyết?</p>
+        </Modal>
         <Table
           columns={columns}
           dataSource={data}
@@ -151,7 +228,8 @@ class ContractTableList extends React.Component {
 
 const mapStateToProps = state => ({
   data: state.manage.data,
-  current_user: state.detail.current_user
+  current_user: state.detail.current_user,
+  current_contract: state.detail.current_contract
 });
 
 const mapDispatchToProps = dispatch => ({

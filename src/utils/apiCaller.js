@@ -94,10 +94,42 @@ export function callApiChangeStatusContractUser(item) {
     })
 }
 
+export function callApiChangeStatusComplaintAdmin(item) {
+    return axios({
+        method: 'PUT',
+        url: `${api_admin_url}/contract/complaint/admin`,
+        data: item
+    })
+}
+
+export function callApiChangeStatusComplaintUser(item) {
+    return axios({
+        method: 'PUT',
+        url: `${api_user_url}/contract/complaint/user`,
+        data: item
+    })
+}
+
 
 export function callApiRevenue() {
     return axios({
         method: 'GET',
         url: `${api_user_url}/revenue/admin`
     })
+}
+
+export function callApiDeleteContractAdmin(item) {
+    return axios({
+        method: 'DELETE',
+        url: `${api_admin_url}/contract`,
+        data: item
+    });
+}
+
+export function callApiDeleteContractUser(item) {
+    return axios({
+        method: 'DELETE',
+        url: `${api_user_url}/contract`,
+        data: item
+    });
 }

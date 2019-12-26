@@ -19,7 +19,6 @@ class DeleteTag extends React.Component {
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false
     });
